@@ -141,7 +141,8 @@ public class AddNewTask extends BottomSheetDialogFragment {
                     task.setTask(text);
                     task.setStatus(0);
                     task.setDate(selectedDate);
-                    Log.d(TAG, "Selected Date: " + selectedDate);
+                    Log.d(TAG, "DEBUG : TASK: " + task.getDate());
+                    Log.d(TAG, "selecteddate: " + selectedDate);
                     db.insertTask(task);
                 }
                 dismiss();

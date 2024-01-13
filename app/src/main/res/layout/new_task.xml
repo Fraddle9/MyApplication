@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:hint="@string/new_task" />
+        android:hint="@string/new_task"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/newTaskButton"
@@ -21,18 +22,20 @@
         android:background="@android:color/transparent"
         android:text="@string/save"
         android:textAllCaps="false"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/pickDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick date"
+        android:text="@string/pick_date"
         android:layout_below="@id/newTaskText"
         android:layout_toStartOf="@id/newTaskButton"
         android:textSize="16sp"
         android:background="@android:color/transparent"
         android:textAllCaps="false"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

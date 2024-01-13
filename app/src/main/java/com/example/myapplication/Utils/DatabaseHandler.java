@@ -53,6 +53,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
         cv.put(STATUS, 0);
+        cv.put(DATE, task.getDate());
         db.insert(TODO_TABLE, null, cv);
     }
 
