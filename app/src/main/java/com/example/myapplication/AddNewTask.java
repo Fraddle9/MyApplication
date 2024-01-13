@@ -1,16 +1,19 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -32,8 +35,15 @@ public class AddNewTask extends BottomSheetDialogFragment {
     public static final String TAG = "ActionBottomDialog";
     private EditText newTaskText;
     private Button newTaskSaveButton;
+    private String selectedDate; // Add this variable
 
     private DatabaseHandler db;
+
+    private DatePickerDialog.OnDateSetListener listener;
+
+    public void setListener(DatePickerDialog.OnDateSetListener listener) {
+        this.listener = listener;
+    }
 
     public static AddNewTask newInstance(){
         return new AddNewTask();
@@ -44,6 +54,17 @@ public class AddNewTask extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(STYLE_NORMAL, R.style.DialogStyle);
     }
+
+
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        // Format the selected date as needed
+        String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+        if (listener != null) {
+            listener.onDateSet(view, year, month, dayOfMonth);
+        }
+    }
+
 
     @Nullable
     @Override
@@ -119,6 +140,8 @@ public class AddNewTask extends BottomSheetDialogFragment {
                     ToDoModel task = new ToDoModel();
                     task.setTask(text);
                     task.setStatus(0);
+                    task.setDate(selectedDate);
+                    Log.d(TAG, "Selected Date: " + selectedDate);
                     db.insertTask(task);
                 }
                 dismiss();
@@ -127,7 +150,18 @@ public class AddNewTask extends BottomSheetDialogFragment {
     }
 
     private void showDatePickerDialog() {
-        DialogFragment newFragment = new DatePickerFragment();
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setListener(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                // Format the selected date as needed
+                selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+
+                // You can display the selected date if needed
+                // For example, set it to a TextView
+                // selectedDateTextView.setText(selectedDate);
+            }
+        });
         newFragment.show(getChildFragmentManager(), "datePicker");
     }
 
