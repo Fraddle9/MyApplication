@@ -134,15 +134,12 @@ public class AddNewTask extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newTaskText.getText().toString();
                 if(finalIsUpdate){
-                    db.updateTask(bundle.getInt("id"), text);
-                }
-                else {
+                    db.updateTask(bundle.getInt("id"), text, selectedDate); // Pass selectedDate for updating
+                } else {
                     ToDoModel task = new ToDoModel();
                     task.setTask(text);
                     task.setStatus(0);
                     task.setDate(selectedDate);
-                    Log.d(TAG, "DEBUG : TASK: " + task.getDate());
-                    Log.d(TAG, "selecteddate: " + selectedDate);
                     db.insertTask(task);
                 }
                 dismiss();

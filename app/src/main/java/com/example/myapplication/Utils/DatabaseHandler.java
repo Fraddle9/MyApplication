@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.myapplication.Model.ToDoModel;
 
@@ -53,6 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
         cv.put(STATUS, 0);
+        Log.d("DB-HANDLER", "Date from item: " + task.getDate());
         cv.put(DATE, task.getDate());
         db.insert(TODO_TABLE, null, cv);
     }
@@ -67,12 +69,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 int idColumnIndex = cur.getColumnIndex(ID);
                 int taskColumnIndex = cur.getColumnIndex(TASK);
                 int statusColumnIndex = cur.getColumnIndex(STATUS);
+                int dateColumnIndex = cur.getColumnIndex(DATE); // Add this line
 
                 while (cur.moveToNext()) {
                     ToDoModel task = new ToDoModel();
                     task.setId(cur.getInt(idColumnIndex));
                     task.setTask(cur.getString(taskColumnIndex));
                     task.setStatus(cur.getInt(statusColumnIndex));
+                    task.setDate(cur.getString(dateColumnIndex)); // Add this line
                     taskList.add(task);
                 }
             }
@@ -86,17 +90,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
 
+
     public void updateStatus(int id, int status){
         ContentValues cv = new ContentValues();
         cv.put(STATUS, status);
         db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
     }
 
-    public void updateTask(int id, String task) {
+    public void updateTask(int id, String task, String date) {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task);
+        cv.put(DATE, date); // Update the date along with the task
         db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
     }
+
+
 
     public void deleteTask(int id){
         db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
