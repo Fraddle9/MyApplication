@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private ToDoAdapter tasksAdapter;
     private FloatingActionButton fab;
     private Button btnFilter;
+    private Button btnRemoveFilter;
     private String selectedFilterDate;
 
     private List<ToDoModel> taskList;
@@ -68,10 +69,21 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         tasksAdapter.setTasks(taskList);
 
         btnFilter = findViewById(R.id.btnFilter);
+        btnRemoveFilter = findViewById(R.id.btnRemoveFilter);
+
+        btnRemoveFilter.setVisibility(View.GONE);
+
         btnFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialogForFilter();
+            }
+        });
+
+        btnRemoveFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeFilterAndShowAllTasks();
             }
         });
 
@@ -90,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 selectedFilterDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                 filterTasksByDate(selectedFilterDate);
+                updateFilterButtonVisibility(true);
             }
         });
         newFragment.show(getSupportFragmentManager(), "datePickerFilter");
@@ -99,6 +112,28 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         List<ToDoModel> filteredTasks = db.getTasksByDate(filterDate);
         tasksAdapter.setTasks(filteredTasks);
         tasksAdapter.notifyDataSetChanged();
+    }
+
+    private void removeFilterAndShowAllTasks() {
+        selectedFilterDate = null;
+        updateFilterButtonVisibility(false);
+        loadAllTasks();
+    }
+
+    private void loadAllTasks() {
+        List<ToDoModel> allTasks = db.getAllTasks();
+        tasksAdapter.setTasks(allTasks);
+        tasksAdapter.notifyDataSetChanged();
+    }
+
+    private void updateFilterButtonVisibility(boolean filterApplied) {
+        if (filterApplied) {
+            btnFilter.setVisibility(View.GONE);
+            btnRemoveFilter.setVisibility(View.VISIBLE);
+        } else {
+            btnFilter.setVisibility(View.VISIBLE);
+            btnRemoveFilter.setVisibility(View.GONE);
+        }
     }
 
     @Override

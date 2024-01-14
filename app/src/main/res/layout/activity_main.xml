@@ -55,6 +55,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="32dp"
         android:layout_marginStart="32dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/remove_filter"
         android:background="@android:color/holo_green_dark"
         android:textColor="@android:color/white"
