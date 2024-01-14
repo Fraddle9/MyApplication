@@ -1,4 +1,5 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,20 +9,21 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp">
 
-
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:gravity="start">
 
         <CheckBox
             android:id="@+id/todoCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:buttonTint="@android:color/holo_green_dark"
-            tools:text="Go to the market and bring vegetables immediately today."/>
+            tools:text="To Do Task Text"/>
 
         <TextView
             android:id="@+id/dateTextView"
@@ -30,10 +32,8 @@
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray"
             android:layout_below="@id/todoCheckBox"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="6dp"
+        tools:text="Due Date : 11 11 1111"/>
     </RelativeLayout>
-
-
 </androidx.cardview.widget.CardView>

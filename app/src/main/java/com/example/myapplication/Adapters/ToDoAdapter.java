@@ -46,9 +46,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
         final ToDoModel item = todoList.get(position);
         Log.d("ToDoAdapter", "Date from item: " + item.getDate());
+        String dueDateText = "Due Date: " + item.getDate();
         holder.task.setText(item.getTask());
         holder.task.setChecked(toBoolean(item.getStatus()));
-        holder.date.setText(String.valueOf(item.getDate())); // Set the date
+        holder.date.setText(dueDateText); // Set the date
 
         holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
