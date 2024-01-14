@@ -89,7 +89,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return taskList;
     }
 
+    public List<ToDoModel> getTasksByDate(String date) {
+        List<ToDoModel> taskList = new ArrayList<>();
+        Cursor cur = null;
+        db.beginTransaction();
+        try {
+            cur = db.query(
+                    TODO_TABLE,
+                    null,
+                    DATE + "=?",
+                    new String[]{date},
+                    null,
+                    null,
+                    null,
+                    null
+            );
 
+            if (cur != null) {
+                int idColumnIndex = cur.getColumnIndex(ID);
+                int taskColumnIndex = cur.getColumnIndex(TASK);
+                int statusColumnIndex = cur.getColumnIndex(STATUS);
+                int dateColumnIndex = cur.getColumnIndex(DATE);
+
+                while (cur.moveToNext()) {
+                    ToDoModel task = new ToDoModel();
+                    task.setId(cur.getInt(idColumnIndex));
+                    task.setTask(cur.getString(taskColumnIndex));
+                    task.setStatus(cur.getInt(statusColumnIndex));
+                    task.setDate(cur.getString(dateColumnIndex));
+                    taskList.add(task);
+                }
+            }
+        } finally {
+            db.endTransaction();
+            if (cur != null && !cur.isClosed()) {
+                cur.close();
+            }
+        }
+        return taskList;
+    }
 
     public void updateStatus(int id, int status){
         ContentValues cv = new ContentValues();
